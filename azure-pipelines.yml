@@ -44,5 +44,32 @@ jobs:
     displayName: Publish Build Artifact
     inputs:
       targetPath: '$(APIDirectory)/$(APIName).zip'
+      artifact: 'APIArtifact'
+- job: Build_Web
+  displayName: Build Web
+  steps:
+  - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
+    displayName: Run Nuke Build
+    workingDirectory: $(WebSiteDirectory)
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/*.trx'
+      searchFolder: '$(WebSiteDirectory)'
+      failTaskOnFailedTests: true
+      testRunTitle: 'API Build Tests'
+      buildPlatform: '$(MyPlatform)'
+      buildConfiguration: '$(MyConfiguration)'
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish Coverage Results
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(WebSiteDirectory)\**\in\**\coverage.cobertura.xml'
+      pathToSources: '$(WebSiteDirectory)'
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Build Artifact
+    inputs:
+      targetPath: '$(WebSiteDirectory)/$(WebSiteName).zip'
       artifact: 'WebSiteArtifact'
  
