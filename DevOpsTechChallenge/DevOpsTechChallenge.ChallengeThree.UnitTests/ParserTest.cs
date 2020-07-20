@@ -1,3 +1,4 @@
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -31,6 +32,15 @@ namespace DevOpsTechChallenge.ChallengeThree.UnitTests
         }
 
         [TestMethod]
+        public void CanAcceptA1LevelKeyAndObjectAndReturnAValue()
+        {
+            var parser = new Parser();
+            var result = parser.Parse("c", "{ \"c\" : \"g\" }");
+            Assert.AreEqual("g", result);
+        }
+
+
+        [TestMethod]
         public void CanHandleMissingKey()
         {
             var parser = new Parser();
@@ -38,13 +48,19 @@ namespace DevOpsTechChallenge.ChallengeThree.UnitTests
             Assert.ThrowsException<ArgumentException>(() => parser.Parse(string.Empty, "{ \"c\" : { \"d\" : { \"e\" : {\"f\" : \"g\" } } } }"), "Key must contain a value.");
         }
 
-
         [TestMethod]
         public void CanHandleMissingObject()
         {
             var parser = new Parser();
             Assert.ThrowsException<ArgumentException>(() => parser.Parse("c/d/e/f", null), "Json must contain a value.");
             Assert.ThrowsException<ArgumentException>(() => parser.Parse("c/d/e/f", string.Empty), "Json must contain a value.");
+        }
+
+        [TestMethod]
+        public void CanHandleInvalidKeyPath()
+        {
+            var parser = new Parser();
+            Assert.ThrowsException<Exception>(() => parser.Parse("c/b/e/f", "{ \"c\" : { \"d\" : { \"e\" : {\"f\" : \"g\" } } } }"), "The Key not valid for this Object.");
         }
     }
 }

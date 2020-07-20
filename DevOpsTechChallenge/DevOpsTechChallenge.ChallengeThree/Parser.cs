@@ -18,7 +18,14 @@ namespace DevOpsTechChallenge.ChallengeThree
                 throw new ArgumentException("Json must contain a value.");
             }
             var parsedJson = JObject.Parse(json);
-            return parsedJson.SelectToken(key.Replace("/",".")).Value<string>();
+            try
+            {
+                return parsedJson.SelectToken(key.Replace("/", ".")).Value<string>();
+            }
+            catch
+            {
+                throw new Exception("The Key not valid for this Object.");
+            }
         }
     }
 }
