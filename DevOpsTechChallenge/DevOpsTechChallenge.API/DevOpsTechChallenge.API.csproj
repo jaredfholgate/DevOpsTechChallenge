@@ -4,5 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DevOpsTechChallenge.ChallengeThree\DevOpsTechChallenge.ChallengeThree.csproj" />
+  </ItemGroup>
+
 
 </Project>
