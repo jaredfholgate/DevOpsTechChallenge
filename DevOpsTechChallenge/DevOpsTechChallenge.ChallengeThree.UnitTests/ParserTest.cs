@@ -6,10 +6,10 @@ namespace DevOpsTechChallenge.ChallengeThree.UnitTests
     public class ParserTest
     {
         [TestMethod]
-        public void CanAcceptAKeyAndReturnAValue()
+        public void CanAcceptAKeyAndObjectAndReturnAValue()
         {
             var parser = new Parser();
-            var result = parser.Parse("a/b/c");
+            var result = parser.Parse("a/b/c", "{ \"a\" : { \"b\" : { \"c\" : \"d\" } } }");
             Assert.AreEqual("d", result);
         }
     }
