@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DevOpsTechChallenge.Web.Models;
+using DevOpsTechChallenge.Services.ChallengeThree;
+using Microsoft.Extensions.Configuration;
 
 namespace DevOpsTechChallenge.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IChallengeThreeService _challengeThreeService;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IChallengeThreeService challengeThreeService, IConfiguration configuration)
         {
             _logger = logger;
+            _challengeThreeService = challengeThreeService;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -36,7 +42,7 @@ namespace DevOpsTechChallenge.Web.Controllers
         {
             var model = new HomeModel
             {
-                ResultThree = "d"
+                ResultThree = _challengeThreeService.GetResult(key, json, _configuration["APIUrl"] + "/challengethree")
             };
             return View("Index",model);
         }

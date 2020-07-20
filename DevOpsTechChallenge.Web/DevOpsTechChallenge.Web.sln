@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsTechChallenge.Web", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{85E130E3-3E05-4E81-91B2-D2D0EB4045CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsTechChallenge.Services.ChallengeThree", "DevOpsTechChallenge.Services.ChallengeThree\DevOpsTechChallenge.Services.ChallengeThree.csproj", "{ED2F8865-B630-4214-8E11-77434BE49AF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F4C7A264-F3B7-43D6-AB08-4F78077A08E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85E130E3-3E05-4E81-91B2-D2D0EB4045CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85E130E3-3E05-4E81-91B2-D2D0EB4045CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2F8865-B630-4214-8E11-77434BE49AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2F8865-B630-4214-8E11-77434BE49AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2F8865-B630-4214-8E11-77434BE49AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2F8865-B630-4214-8E11-77434BE49AF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
