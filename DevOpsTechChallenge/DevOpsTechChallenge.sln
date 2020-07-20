@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsTechChallenge.Challen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsTechChallenge.ChallengeThree.UnitTests", "DevOpsTechChallenge.ChallengeThree.UnitTests\DevOpsTechChallenge.ChallengeThree.UnitTests.csproj", "{B9239F1F-B64B-4AA3-9281-9838B047F757}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{7696FF15-4C9A-4310-9F5C-B3748C3F3F12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,8 @@ Global
 		{B9239F1F-B64B-4AA3-9281-9838B047F757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9239F1F-B64B-4AA3-9281-9838B047F757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9239F1F-B64B-4AA3-9281-9838B047F757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7696FF15-4C9A-4310-9F5C-B3748C3F3F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7696FF15-4C9A-4310-9F5C-B3748C3F3F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
