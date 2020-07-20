@@ -18,7 +18,7 @@ pool:
   vmImage: 'windows-latest'
 
 jobs:
-- job: Build API
+- job: Build_API
   displayName: Build API
   steps:
   - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
