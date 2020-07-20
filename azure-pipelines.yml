@@ -1,19 +1,44 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
+name: $(Date:yyyy.M.d)$(Rev:.r)
 trigger:
-- master
+  branches:
+    include:
+    - master
+
+variables:
+  MyConfiguration: Release
+  MyPlatform: Any CPU
+  WorkingDirectory: $(build.sourcesDirectory)\DevOpsTechChallenge
+  WebSiteName: DevOpsTechChallenge.API
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+- job: Build
+  displayName: Build
+  steps:
+  - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
+    displayName: Run Nuke Build
+    workingDirectory: $(WorkingDirectory)
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/*.trx'
+      searchFolder: '$(WorkingDirectory)'
+      failTaskOnFailedTests: true
+      testRunTitle: 'Maples.Ping Build Tests'
+      buildPlatform: '$(MyPlatform)'
+      buildConfiguration: '$(MyConfiguration)'
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish Coverage Results
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(WorkingDirectory)\**\in\**\coverage.cobertura.xml'
+      pathToSources: '$(WorkingDirectory)'
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Build Artifact
+    inputs:
+      targetPath: '$(WorkingDirectory)/$(WebSiteName).zip'
+      artifact: 'WebSiteArtifact'
+ 
