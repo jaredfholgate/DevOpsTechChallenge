@@ -20,7 +20,25 @@ namespace DevOpsTechChallenge.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new HomeModel());
+        }
+
+        public IActionResult ChallengeTwo(string dataKey)
+        {
+            var model = new HomeModel
+            {
+                ResultTwo = "Testing 123"
+            };
+            return View("Index", model);
+        }
+
+        public IActionResult ChallengeThree(string key, string json)
+        {
+            var model = new HomeModel
+            {
+                ResultThree = "d"
+            };
+            return View("Index",model);
         }
 
         public IActionResult Privacy()

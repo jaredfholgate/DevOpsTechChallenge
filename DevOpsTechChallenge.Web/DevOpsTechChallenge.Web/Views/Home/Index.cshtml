@@ -1,8 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model HomeModel
+  <div class="text-center">
+    <h3 class="display-4">Challenge 2</h3>
+    @using (Html.BeginForm("ChallengeTwo", "Home"))
+    {
+      <div>
+        <div>@Html.Label("Data Key (Optional)")</div><div>@Html.TextBoxFor(m => m.Key)</div>
+        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.ResultTwo)</div>
+        <div><input type="submit" value="Get Result" /></div>
+      </div>
+    }
+    <br />
+    <br />
+    <h3 class="display-4">Challenge 3</h3>
+    @using (Html.BeginForm("ChallengeThree", "Home"))
+    {
+      <div>
+        <div>@Html.Label("Key")</div><div>@Html.TextBoxFor(m => m.Key)</div>
+        <div>@Html.Label("Object")</div><div> @Html.TextAreaFor(m => m.Json)</div>
+        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.ResultThree)</div>
+        <div><input type="submit" value="Get Result" /></div>
+      </div>
+
+    }
+    </div>
