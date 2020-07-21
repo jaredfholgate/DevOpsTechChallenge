@@ -9,19 +9,21 @@ namespace DevOpsTechChallenge.Web.Models
     {
         public HomeModel()
         {
-            Key = "a/b/c";
-            Json = "{ \"a\" : { \"b\" : { \"c\" : \"d\" } } }";
+            CTwoDataKey = "Name";
+            CThreeKey = "a/b/c";
+            CThreeJson = "{ \"a\" : { \"b\" : { \"c\" : \"d\" } } }";
         }
 
-        public string Key { get; set; }
+        public string COneTestValue { get; set; }
 
-        public string Json { get; set; }
+        public string CTwoResult { get; set; }
 
-        public string ResultThree { get; set; }
-        
-        public string DataKey { get; set; }
-        
-        public string ResultTwo { get; set; }
+        public string CTwoDataKey { get; set; }
 
+        public string CThreeKey { get; set; }
+
+        public string CThreeJson { get; set; }
+
+        public string CThreeResult { get; set; }
     }
 }

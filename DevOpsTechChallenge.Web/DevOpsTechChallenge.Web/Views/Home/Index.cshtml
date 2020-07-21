@@ -4,26 +4,34 @@
 
 @model HomeModel
   <div class="text-center">
-    <h3 class="display-4">Challenge 2</h3>
-    @using (Html.BeginForm("ChallengeTwo", "Home"))
+    <h3 class="display-4">Challenge 1</h3>
+    <p>This value is populated from the database via the API layer of the 3 Tier application provisioend by Terraform. Changing it updates the value in the database via the API layer.</p>
+    @using (Html.BeginForm("Challenge", "Home"))
     {
       <div>
-        <div>@Html.Label("Data Key (Optional)")</div><div>@Html.TextBoxFor(m => m.Key)</div>
-        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.ResultTwo)</div>
+        <div>@Html.Label("Test Data")</div><div>@Html.TextBoxFor(m => m.COneTestValue)</div>
         <div><input type="submit" value="Get Result" /></div>
       </div>
-    }
+    <br />
+    <br />
+    <h3 class="display-4">Challenge 2</h3>
+    <p>This value is retrieved from Azure via the API layer. Leaving it blank returns all data for the VM.</p>
+      <div>
+        <div>@Html.Label("Data Key (Optional)")</div><div>@Html.TextBoxFor(m => m.CTwoDataKey)</div>
+        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.CTwoResult)</div>
+        <div><input type="submit" value="Get Result" /></div>
+      </div>
+    
     <br />
     <br />
     <h3 class="display-4">Challenge 3</h3>
-    @using (Html.BeginForm("ChallengeThree", "Home"))
-    {
+    <p>This value is caluculated in the API layer.</p>
       <div>
-        <div>@Html.Label("Key")</div><div>@Html.TextBoxFor(m => m.Key)</div>
-        <div>@Html.Label("Object")</div><div> @Html.TextAreaFor(m => m.Json)</div>
-        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.ResultThree)</div>
+        <div>@Html.Label("Key")</div><div>@Html.TextBoxFor(m => m.CThreeKey)</div>
+        <div>@Html.Label("Object")</div><div> @Html.TextAreaFor(m => m.CThreeJson)</div>
+        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.CThreeResult)</div>
         <div><input type="submit" value="Get Result" /></div>
       </div>
 
     }
-    </div>
+  </div>

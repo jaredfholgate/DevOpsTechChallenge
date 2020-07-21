@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevOpsTechChallenge.Services.ChallengeThree\DevOpsTechChallenge.Services.ChallengeThree.csproj" />
+    <ProjectReference Include="..\DevOpsTechChallenge.Services\DevOpsTechChallenge.Services.csproj" />
   </ItemGroup>
 
 </Project>

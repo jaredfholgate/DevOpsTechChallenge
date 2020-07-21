@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsTechChallenge.Web", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{85E130E3-3E05-4E81-91B2-D2D0EB4045CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsTechChallenge.Services.ChallengeThree", "DevOpsTechChallenge.Services.ChallengeThree\DevOpsTechChallenge.Services.ChallengeThree.csproj", "{ED2F8865-B630-4214-8E11-77434BE49AF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsTechChallenge.Services", "DevOpsTechChallenge.Services\DevOpsTechChallenge.Services.csproj", "{ED2F8865-B630-4214-8E11-77434BE49AF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

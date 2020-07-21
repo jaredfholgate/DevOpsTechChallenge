@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevOpsTechChallenge.ChallengeThree;
+using DevOpsTechChallenge.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,7 @@ namespace DevOpsTechChallenge.API
         {
             services.AddControllers();
             services.AddTransient<IParser, Parser>();
+            services.AddTransient<ITestRepository>(sp => new TestRepository(Configuration.GetConnectionString("dotcContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

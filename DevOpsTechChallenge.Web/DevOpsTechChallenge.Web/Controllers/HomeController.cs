@@ -14,38 +14,37 @@ namespace DevOpsTechChallenge.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IChallengeOneService _challengeOneService;
+
         private readonly IChallengeThreeService _challengeThreeService;
         private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, IChallengeThreeService challengeThreeService, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger, IChallengeOneService challengeOneService, IChallengeThreeService challengeThreeService, IConfiguration configuration)
         {
             _logger = logger;
+            _challengeOneService = challengeOneService;
             _challengeThreeService = challengeThreeService;
             _configuration = configuration;
         }
 
         public IActionResult Index()
         {
-            return View(new HomeModel());
+            return View(new HomeModel() 
+            { 
+                COneTestValue = _challengeOneService.GetTest(_configuration["APIUrl"] + "/challengeone")
+            });
         }
 
-        public IActionResult ChallengeTwo(string dataKey)
+        public IActionResult Challenge(HomeModel model)
         {
-            var model = new HomeModel
-            {
-                ResultTwo = "Testing 123"
-            };
+            _challengeOneService.SetTest(_configuration["APIUrl"] + "/challengeone", model.COneTestValue);
+            model.COneTestValue = _challengeOneService.GetTest(_configuration["APIUrl"] + "/challengeone");
+            model.CTwoResult = "Testing 123";
+            model.CThreeResult = _challengeThreeService.GetResult(model.CThreeKey, model.CThreeJson, _configuration["APIUrl"] + "/challengethree");
+            ModelState.Clear();
             return View("Index", model);
         }
 
-        public IActionResult ChallengeThree(string key, string json)
-        {
-            var model = new HomeModel
-            {
-                ResultThree = _challengeThreeService.GetResult(key, json, _configuration["APIUrl"] + "/challengethree")
-            };
-            return View("Index",model);
-        }
 
         public IActionResult Privacy()
         {

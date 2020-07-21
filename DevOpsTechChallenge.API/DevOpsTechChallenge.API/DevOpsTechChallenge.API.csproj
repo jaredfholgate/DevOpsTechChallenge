@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevOpsTechChallenge.ChallengeThree\DevOpsTechChallenge.ChallengeThree.csproj" />
+    <ProjectReference Include="..\DevOpsTechChallenge.Repositories\DevOpsTechChallenge.Repositories.csproj" />
   </ItemGroup>
 
 
