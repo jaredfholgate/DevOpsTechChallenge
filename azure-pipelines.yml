@@ -123,14 +123,14 @@ jobs:
             Inline: |
               # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
                             
-                            $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
-                            $key = $keys[0].Value
-                            Write-Host "##vso[task.setvariable variable=storagekey]$key"
+              $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
+              $key = $keys[0].Value
+              Write-Host "##vso[task.setvariable variable=storagekey]$key"
             preferredAzurePowerShellVersion: '5.1.1'
         - task: replacetokens@3
           displayName: Replace tokens in Terraform Files
           inputs:
-            targetFiles: '**/*.tf'
+            targetFiles: '$(Pipeline.Workspace)/**/Terraform/*.tf'
             encoding: 'auto'
             writeBOM: true
             escapeType: 'none'
