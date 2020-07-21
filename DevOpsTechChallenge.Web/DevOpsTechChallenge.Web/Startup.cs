@@ -26,6 +26,7 @@ namespace DevOpsTechChallenge.Web
         {
             services.AddControllersWithViews();
             services.AddTransient<IChallengeOneService, ChallengeOneService>();
+            services.AddTransient<IChallengeTwoService, ChallengeTwoService>();
             services.AddTransient<IChallengeThreeService, ChallengeThreeService>();
         }
 

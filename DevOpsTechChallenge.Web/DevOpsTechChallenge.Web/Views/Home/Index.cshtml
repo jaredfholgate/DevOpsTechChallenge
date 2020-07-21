@@ -5,33 +5,38 @@
 @model HomeModel
   <div class="text-center">
     <h3 class="display-4">Challenge 1</h3>
-    <p>This value is populated from the database via the API layer of the 3 Tier application provisioend by Terraform. Changing it updates the value in the database via the API layer.</p>
-    @using (Html.BeginForm("Challenge", "Home"))
+    <p>This value is populated from the database via the API layer of the 3 Tier application provisioned by Terraform. Changing it updates the value in the database via the API layer.</p>
+    @using (Html.BeginForm("ChallengeOne", "Home"))
     {
       <div>
         <div>@Html.Label("Test Data")</div><div>@Html.TextBoxFor(m => m.COneTestValue)</div>
-        <div><input type="submit" value="Get Result" /></div>
+        <div><input type="submit" value="Save Value" /></div>
       </div>
+    }
     <br />
     <br />
     <h3 class="display-4">Challenge 2</h3>
-    <p>This value is retrieved from Azure via the API layer. Leaving it blank returns all data for the VM.</p>
-      <div>
-        <div>@Html.Label("Data Key (Optional)")</div><div>@Html.TextBoxFor(m => m.CTwoDataKey)</div>
-        <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.CTwoResult)</div>
-        <div><input type="submit" value="Get Result" /></div>
-      </div>
-    
+    <p>This value is retrieved from the Azure VM via the API layer. Leaving it blank returns all data for the VM. This takes a few seconds to run as it connects to Azure and runs remote powershell on the VM to retrieve the data.</p>
+    @using (Html.BeginForm("ChallengeTwo", "Home"))
+    {
+  <div>
+    <div>@Html.Label("VM Name")</div><div>@Html.TextBoxFor(m => m.CTwoVMName)</div>
+    <div>@Html.Label("Data Key / Filter (Optional)")</div><div>@Html.TextBoxFor(m => m.CTwoDataKey)</div>
+    <div>@Html.Label("Result")</div><div>@Html.TextAreaFor(m => m.CTwoResult)</div>
+    <div><input type="submit" value="Get Instance Meta Data" /></div>
+  </div>
+    }
     <br />
     <br />
     <h3 class="display-4">Challenge 3</h3>
     <p>This value is caluculated in the API layer.</p>
+    @using (Html.BeginForm("ChallengeThree", "Home"))
+    {
       <div>
         <div>@Html.Label("Key")</div><div>@Html.TextBoxFor(m => m.CThreeKey)</div>
         <div>@Html.Label("Object")</div><div> @Html.TextAreaFor(m => m.CThreeJson)</div>
         <div>@Html.Label("Result")</div><div>@Html.TextBoxFor(m => m.CThreeResult)</div>
         <div><input type="submit" value="Get Result" /></div>
       </div>
-
     }
   </div>

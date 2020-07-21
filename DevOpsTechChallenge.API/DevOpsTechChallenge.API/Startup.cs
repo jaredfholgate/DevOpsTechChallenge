@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevOpsTechChallenge.ChallengeThree;
+using DevOpsTechChallenge.ChallengeTwo;
 using DevOpsTechChallenge.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace DevOpsTechChallenge.API
         {
             services.AddControllers();
             services.AddTransient<IParser, Parser>();
+            services.AddTransient<IVMQuery, VMQuery>();
             services.AddTransient<ITestRepository>(sp => new TestRepository(Configuration.GetConnectionString("dotcContext")));
         }
 

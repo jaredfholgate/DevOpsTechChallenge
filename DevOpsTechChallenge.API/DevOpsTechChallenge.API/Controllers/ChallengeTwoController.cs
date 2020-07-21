@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DevOpsTechChallenge.ChallengeThree;
+using DevOpsTechChallenge.ChallengeTwo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,20 +16,20 @@ namespace DevOpsTechChallenge.API.Controllers
     {
  
         private readonly ILogger<ChallengeThreeController> _logger;
-        private readonly IParser _parser;
+        private readonly IVMQuery _vMQuery;
 
-        public ChallengeTwoController(ILogger<ChallengeThreeController> logger, IParser parser)
+        public ChallengeTwoController(ILogger<ChallengeThreeController> logger, IVMQuery vMQuery)
         {
             _logger = logger;
-            _parser = parser;
+            _vMQuery = vMQuery;
         }
 
         [HttpGet]
-        public ActionResult<string> Get(string key, string json)
+        public ActionResult<string> Get(string vmName, string filter)
         {
             try
             {
-                return _parser.Parse(key, json);
+                return _vMQuery.Get(vmName, filter);
             }
             catch
             {
