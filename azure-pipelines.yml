@@ -39,7 +39,7 @@ stages:
     - task: PublishPipelineArtifact@1
       displayName: Publish Terrform Artifact
       inputs:
-        targetPath: '$(WorkingDirectory)/Infrastructure/*.tf'
+        targetPath: '$(WorkingDirectory)/Infrastructure'
         artifact: 'Terraform'
 
   - job: Build_API
