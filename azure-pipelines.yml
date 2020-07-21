@@ -115,18 +115,18 @@ jobs:
               call az storage container create --name terraform --account-name $(terraformstorageaccount)
               
               call az storage account keys list -g $(terraformresourcegroup) -n $(terraformstorageaccount)
-        - task: AzureCLI@2
-          displayName: Get Storage Key for Terrafom
+        - task: AzurePowerShell@3
+          displayName: Get storage account key
           inputs:
             azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            scriptType: 'ps'
-            scriptLocation: 'inlineScript'
-            inlineScript: |
+            ScriptType: 'InlineScript'
+            Inline: |
               # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
-              
-              $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
-              $key = $keys[0].Value
-              Write-Host "##vso[task.setvariable variable=storagekey]$key"
+                            
+                            $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
+                            $key = $keys[0].Value
+                            Write-Host "##vso[task.setvariable variable=storagekey]$key"
+            preferredAzurePowerShellVersion: '5.1.1'
         - task: replacetokens@3
           displayName: Replace tokens in Terraform Files
           inputs:
