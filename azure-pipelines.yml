@@ -174,7 +174,7 @@ stages:
               workingDirectory: '$(Pipeline.Workspace)\Terraform'
               environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
           - task: TerraformTaskV1@0
-            displayName: Terraform valiate and apply
+            displayName: Terraform validate and apply
             inputs:
               provider: 'azurerm'
               command: 'apply'
