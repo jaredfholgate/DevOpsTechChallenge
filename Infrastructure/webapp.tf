@@ -54,7 +54,7 @@ resource "azurerm_app_service" "dotc_api" {
   connection_string {
     name  = "dotcContext"
     type  = "SQLServer"
-    value = "Server=${azurerm_sql_server.aadg.fully_qualified_domain_name} Integrated Security=SSPI"
+    value = "Server=${azurerm_sql_server.dotc.fully_qualified_domain_name} Integrated Security=SSPI"
   }
 }
 
