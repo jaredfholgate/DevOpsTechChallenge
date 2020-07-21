@@ -124,7 +124,7 @@ jobs:
             inlineScript: |
               # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
               
-              $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $(terraformresourcegroup) -Name $(terraformstorageaccount)
+              $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
               $key = $keys[0].Value
               Write-Host "##vso[task.setvariable variable=storagekey]$key"
         - task: replacetokens@3
