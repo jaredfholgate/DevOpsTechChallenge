@@ -20,10 +20,10 @@ variables:
   sqlservername: jfh-dotc-sql
   sqladminusername: dotcadmin
   sqladminpassword: $(adminpassword)
-  databasename: jfh_dotc_db
-  appserviceplan: jfh_dotc_asp
-  appservicenameapi: jfh_dotc_api_as
-  appservicenameweb: jfh_dotc_web_as
+  databasename: jfh-dotc-db
+  appserviceplan: jfh-dotc-asp
+  appservicenameapi: jfh-dotc-api-as
+  appservicenameweb: jfh-dotc-web-as
 
 pool:
   vmImage: 'windows-latest'
