@@ -20,7 +20,7 @@ variables:
   databasename: jfh_addg_db
   appserviceplan: jfh_addg_asp
   appservicenameapi: jfh_addg_api_as
-  appservicenameapi: jfh_addg_web_as
+  appservicenameweb: jfh_addg_web_as
     
 
 pool:
