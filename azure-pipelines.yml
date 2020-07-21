@@ -12,6 +12,8 @@ variables:
   WebSiteName: DevOpsTechChallenge.Web
   APIDirectory: $(WorkingDirectory)\$(APIName)
   WebSiteDirectory: $(WorkingDirectory)\$(WebSiteName)
+  azurelocation: West Europe
+  azurelocationcli: westeurope
   terraformresourcegroup: jfh_dotc_terraform_ag
   terraformstorageaccount: jfh_dotc_terraform_store
   dotc_resourcegroupname: jfh_dotc_rg
@@ -106,9 +108,9 @@ jobs:
             scriptLocation: 'inlineScript'
             inlineScript: |
               # this will create Azure resource group
-              call az group create --location westus --name $(terraformresourcegroup)
+              call az group create --location $(azurelocationcli) --name $(terraformresourcegroup)
               
-              call az storage account create --name $(terraformstorageaccount) --resource-group $(terraformresourcegroup) --location westus --sku Standard_LRS
+              call az storage account create --name $(terraformstorageaccount) --resource-group $(terraformresourcegroup) --location $(azurelocationcli) --sku Standard_LRS
               
               call az storage container create --name terraform --account-name $(terraformstorageaccount)
               
