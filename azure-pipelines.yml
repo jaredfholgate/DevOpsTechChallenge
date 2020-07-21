@@ -28,184 +28,192 @@ variables:
 pool:
   vmImage: 'windows-latest'
 
-jobs:
-- job: Build_Terraform
-  displayName: Package Terraform
-  steps:
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Terrform Artifact
-    inputs:
-      targetPath: '$(WorkingDirectory)/Infrastructure/dotc.tf'
-      artifact: 'Terraform'
+stages:
+- stage: Build
+  displayName: Build Stage
+  jobs:
+  - job: Build_Terraform
+    displayName: Package Terraform
+    steps:
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Terrform Artifact
+      inputs:
+        targetPath: '$(WorkingDirectory)/Infrastructure/dotc.tf'
+        artifact: 'Terraform'
 
-- job: Build_API
-  displayName: Build API
-  steps:
-  - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
-    displayName: Run Nuke Build
-    workingDirectory: $(APIDirectory)
-  - task: PublishTestResults@2
-    displayName: Publish Test Results
-    inputs:
-      testResultsFormat: 'VSTest'
-      testResultsFiles: '**/*.trx'
-      searchFolder: '$(APIDirectory)'
-      failTaskOnFailedTests: true
-      testRunTitle: 'API Build Tests'
-      buildPlatform: '$(MyPlatform)'
-      buildConfiguration: '$(MyConfiguration)'
-  - task: PublishCodeCoverageResults@1
-    displayName: Publish Coverage Results
-    inputs:
-      codeCoverageTool: 'Cobertura'
-      summaryFileLocation: '$(APIDirectory)\**\in\**\coverage.cobertura.xml'
-      pathToSources: '$(APIDirectory)'
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Build Artifact
-    inputs:
-      targetPath: '$(APIDirectory)/$(APIName).zip'
-      artifact: 'APIArtifact'
+  - job: Build_API
+    displayName: Build API
+    steps:
+    - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
+      displayName: Run Nuke Build
+      workingDirectory: $(APIDirectory)
+    - task: PublishTestResults@2
+      displayName: Publish Test Results
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '**/*.trx'
+        searchFolder: '$(APIDirectory)'
+        failTaskOnFailedTests: true
+        testRunTitle: 'API Build Tests'
+        buildPlatform: '$(MyPlatform)'
+        buildConfiguration: '$(MyConfiguration)'
+    - task: PublishCodeCoverageResults@1
+      displayName: Publish Coverage Results
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(APIDirectory)\**\in\**\coverage.cobertura.xml'
+        pathToSources: '$(APIDirectory)'
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Build Artifact
+      inputs:
+        targetPath: '$(APIDirectory)/$(APIName).zip'
+        artifact: 'APIArtifact'
 
-- job: Build_Web
-  displayName: Build Web
-  steps:
-  - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
-    displayName: Run Nuke Build
-    workingDirectory: $(WebSiteDirectory)
-  - task: PublishTestResults@2
-    displayName: Publish Test Results
-    inputs:
-      testResultsFormat: 'VSTest'
-      testResultsFiles: '**/*.trx'
-      searchFolder: '$(WebSiteDirectory)'
-      failTaskOnFailedTests: true
-      testRunTitle: 'API Build Tests'
-      buildPlatform: '$(MyPlatform)'
-      buildConfiguration: '$(MyConfiguration)'
-  - task: PublishCodeCoverageResults@1
-    displayName: Publish Coverage Results
-    inputs:
-      codeCoverageTool: 'Cobertura'
-      summaryFileLocation: '$(WebSiteDirectory)\**\in\**\coverage.cobertura.xml'
-      pathToSources: '$(WebSiteDirectory)'
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Build Artifact
-    inputs:
-      targetPath: '$(WebSiteDirectory)/$(WebSiteName).zip'
-      artifact: 'WebSiteArtifact'
+  - job: Build_Web
+    displayName: Build Web
+    steps:
+    - powershell: .\build.ps1 --Version '$(Build.BuildNumber)' --Configuration '$(MyConfiguration)'
+      displayName: Run Nuke Build
+      workingDirectory: $(WebSiteDirectory)
+    - task: PublishTestResults@2
+      displayName: Publish Test Results
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '**/*.trx'
+        searchFolder: '$(WebSiteDirectory)'
+        failTaskOnFailedTests: true
+        testRunTitle: 'API Build Tests'
+        buildPlatform: '$(MyPlatform)'
+        buildConfiguration: '$(MyConfiguration)'
+    - task: PublishCodeCoverageResults@1
+      displayName: Publish Coverage Results
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(WebSiteDirectory)\**\in\**\coverage.cobertura.xml'
+        pathToSources: '$(WebSiteDirectory)'
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Build Artifact
+      inputs:
+        targetPath: '$(WebSiteDirectory)/$(WebSiteName).zip'
+        artifact: 'WebSiteArtifact'
  
-- deployment: Deploy_Infrastructure
-  displayName: Deploy Infrastructure
-  dependsOn: Build_Terraform
-  environment: DOTC Production
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - download: current
-          artifact: Terraform
-        - task: AzureCLI@2
-          displayName: Deploy Storage for Terraform
-          inputs:
-            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            scriptType: 'batch'
-            scriptLocation: 'inlineScript'
-            inlineScript: |
-              # this will create Azure resource group
-              call az group create --location $(azurelocationcli) --name $(terraformresourcegroup)
-              
-              call az storage account create --name $(terraformstorageaccount) --resource-group $(terraformresourcegroup) --location $(azurelocationcli) --sku Standard_LRS
-              
-              call az storage container create --name terraform --account-name $(terraformstorageaccount)
-              
-              call az storage account keys list -g $(terraformresourcegroup) -n $(terraformstorageaccount)
-        - task: AzurePowerShell@3
-          displayName: Get storage account key
-          inputs:
-            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            ScriptType: 'InlineScript'
-            Inline: |
-              # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
-                            
-              $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
-              $key = $keys[0].Value
-              Write-Host "##vso[task.setvariable variable=storagekey]$key"
-            preferredAzurePowerShellVersion: '5.1.1'
-        - task: replacetokens@3
-          displayName: Replace tokens in Terraform Files
-          inputs:
-            targetFiles: '$(Pipeline.Workspace)/**/Terraform/*.tf'
-            encoding: 'auto'
-            writeBOM: true
-            escapeType: 'none'
-            actionOnMissing: 'warn'
-            keepToken: false
-            tokenPrefix: '__'
-            tokenSuffix: '__'
-            useLegacyPattern: false
-            enableTelemetry: false
-        - task: TerraformInstaller@0
-          displayName: Install Terraform 0.12.28
-          inputs:
-            terraformVersion: '0.12.28'
-        - task: TerraformTaskV1@0
-          displayName: Terraform init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(Pipeline.Workspace)\Terraform'
-            backendServiceArm: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            backendAzureRmResourceGroupName: '$(terraformresourcegroup)'
-            backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
-            backendAzureRmContainerName: 'terraform'
-            backendAzureRmKey: 'dotc_terraform.tfstate'
-        - task: TerraformTaskV1@0
-          displayName: Terraform plan
-          inputs:
-            provider: 'azurerm'
-            command: 'plan'
-            workingDirectory: '$(Pipeline.Workspace)\Terraform'
-            environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-        - task: TerraformTaskV1@0
-          displayName: Terraform valiate and apply
-          inputs:
-            provider: 'azurerm'
-            command: 'apply'
-            workingDirectory: '$(Pipeline.Workspace)\Terraform'
-            commandOptions: '-auto-approve'
-            environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-        
-- deployment: Deploy_API
-  displayName: Deploy API
-  dependsOn: Deploy_Infrastructure
-  environment: DOTC Production
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - download: current
-          artifact: APIArtifact
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            appType: 'webApp'
-            WebAppName: '$(appservicenameapi)'
-            packageForLinux: '$(Pipeline.Workspace)/**/$(APIName).zip'
-- deployment: Deploy_Web
-  displayName: Deploy Web
-  dependsOn: Deploy_Infrastructure
-  environment: DOTC Production
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - download: current
-          artifact: WebSiteArtifact
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
-            appType: 'webApp'
-            WebAppName: '$(appservicenameweb)'
-            packageForLinux: '$(Pipeline.Workspace)/**/$(WebSiteName).zip'
+- stage: Infrastructure
+  displayName: Infrastructure Stage
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy_Infrastructure
+    displayName: Deploy Infrastructure
+    environment: DOTC Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: Terraform
+          - task: AzureCLI@2
+            displayName: Deploy Storage for Terraform
+            inputs:
+              azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+              scriptType: 'batch'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # this will create Azure resource group
+                call az group create --location $(azurelocationcli) --name $(terraformresourcegroup)
+                
+                call az storage account create --name $(terraformstorageaccount) --resource-group $(terraformresourcegroup) --location $(azurelocationcli) --sku Standard_LRS
+                
+                call az storage container create --name terraform --account-name $(terraformstorageaccount)
+                
+                call az storage account keys list -g $(terraformresourcegroup) -n $(terraformstorageaccount)
+          - task: AzurePowerShell@3
+            displayName: Get storage account key
+            inputs:
+              azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+              ScriptType: 'InlineScript'
+              Inline: |
+                # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
+                              
+                $keys = Get-AzureRmStorageAccountKey -ResourceGroupName $env:terraformresourcegroup -Name $env:terraformstorageaccount
+                $key = $keys[0].Value
+                Write-Host "##vso[task.setvariable variable=storagekey]$key"
+              preferredAzurePowerShellVersion: '5.1.1'
+          - task: replacetokens@3
+            displayName: Replace tokens in Terraform Files
+            inputs:
+              targetFiles: '$(Pipeline.Workspace)/**/Terraform/*.tf'
+              encoding: 'auto'
+              writeBOM: true
+              escapeType: 'none'
+              actionOnMissing: 'warn'
+              keepToken: false
+              tokenPrefix: '__'
+              tokenSuffix: '__'
+              useLegacyPattern: false
+              enableTelemetry: false
+          - task: TerraformInstaller@0
+            displayName: Install Terraform 0.12.28
+            inputs:
+              terraformVersion: '0.12.28'
+          - task: TerraformTaskV1@0
+            displayName: Terraform init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(Pipeline.Workspace)\Terraform'
+              backendServiceArm: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+              backendAzureRmResourceGroupName: '$(terraformresourcegroup)'
+              backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
+              backendAzureRmContainerName: 'terraform'
+              backendAzureRmKey: 'dotc_terraform.tfstate'
+          - task: TerraformTaskV1@0
+            displayName: Terraform plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              workingDirectory: '$(Pipeline.Workspace)\Terraform'
+              environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+          - task: TerraformTaskV1@0
+            displayName: Terraform valiate and apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              workingDirectory: '$(Pipeline.Workspace)\Terraform'
+              commandOptions: '-auto-approve'
+              environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+
+- stage: Deployment    
+  displayName: Deployment Stage
+  dependsOn: Infrastructure
+  jobs:   
+  - deployment: Deploy_API
+    displayName: Deploy API
+    environment: DOTC Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: APIArtifact
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+              appType: 'webApp'
+              WebAppName: '$(appservicenameapi)'
+              packageForLinux: '$(Pipeline.Workspace)/**/$(APIName).zip'
+  - deployment: Deploy_Web
+    displayName: Deploy Web
+    environment: DOTC Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: WebSiteArtifact
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+              appType: 'webApp'
+              WebAppName: '$(appservicenameweb)'
+              packageForLinux: '$(Pipeline.Workspace)/**/$(WebSiteName).zip'
