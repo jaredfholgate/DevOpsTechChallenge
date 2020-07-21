@@ -19,7 +19,7 @@ variables:
   dotc_resourcegroupname: jfh_dotc_rg
   sqlservername: jfh-dotc-sql
   sqladminusername: dotcadmin
-  sqladminpassword: dotc@dmin3445
+  sqladminpassword: $(adminpassword)
   databasename: jfh_dotc_db
   appserviceplan: jfh_dotc_asp
   appservicenameapi: jfh_dotc_api_as
