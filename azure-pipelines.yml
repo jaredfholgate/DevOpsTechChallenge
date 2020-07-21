@@ -149,7 +149,7 @@ jobs:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(Pipeline.Workspace)/**/Terraform'
+            workingDirectory: '$(Pipeline.Workspace)/Terraform'
             backendServiceArm: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
             backendAzureRmResourceGroupName: '$(terraformresourcegroup)'
             backendAzureRmStorageAccountName: '$(terraformstorageaccount)'
@@ -160,14 +160,14 @@ jobs:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(Pipeline.Workspace)/**/Terraform'
+            workingDirectory: '$(Pipeline.Workspace)/Terraform'
             environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
         - task: TerraformTaskV1@0
           displayName: Terrfrom valiate and apply
           inputs:
             provider: 'azurerm'
             command: 'apply'
-            workingDirectory: '$(Pipeline.Workspace)/**/Terraform'
+            workingDirectory: '$(Pipeline.Workspace)/Terraform'
             commandOptions: '-auto-approve'
             environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
         
