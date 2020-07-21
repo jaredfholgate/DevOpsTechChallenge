@@ -28,6 +28,14 @@ resource "azurerm_sql_server" "dotc" {
   administrator_login_password = "__sqladminpassword__"
 }
 
+resource "azurerm_sql_firewall_rule" "dotc" {
+  name                = "sql-internal-azure-all"
+  resource_group_name = azurerm_resource_group.dotc.name
+  server_name         = azurerm_sql_server.dotc.name
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "0.0.0.0"
+}
+
 resource "azurerm_sql_database" "dotc" {
   name                = "__databasename__"
   location            = azurerm_resource_group.dotc.location
@@ -64,6 +72,6 @@ resource "azurerm_app_service" "dotc_web" {
   resource_group_name = azurerm_resource_group.dotc.name
   app_service_plan_id = azurerm_app_service_plan.dotc.id
   app_settings = {
-    "APIUrl" = "${azurerm_app_service.dotc_api.default_site_hostname}"
+    "APIUrl" = "https://${azurerm_app_service.dotc_api.default_site_hostname}"
   }
 }
