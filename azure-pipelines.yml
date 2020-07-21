@@ -29,6 +29,15 @@ pool:
   vmImage: 'windows-latest'
 
 jobs:
+- job: Build_Terraform
+  displayName: Package Terraform
+  steps:
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Terrform Artifact
+    inputs:
+      targetPath: '$(WorkingDirectory)/Infrastructure/dotc.tf'
+      artifact: 'Terraform'
+
 - job: Build_API
   displayName: Build API
   steps:
@@ -84,15 +93,10 @@ jobs:
     inputs:
       targetPath: '$(WebSiteDirectory)/$(WebSiteName).zip'
       artifact: 'WebSiteArtifact'
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Terrform Artifact
-    inputs:
-      targetPath: '$(WorkingDirectory)/Infrastructure/dotc.tf'
-      artifact: 'Terraform'
  
 - deployment: Deploy_Infrastructure
   displayName: Deploy Infrastructure
-  dependsOn: Build_Web
+  dependsOn: Build_Terraform
   environment: DOTC Production
   strategy:
     runOnce:
