@@ -32,7 +32,7 @@ namespace DevOpsTechChallenge.API.Controllers
         {
             try
             {
-                return _vMQuery.Get(vmName, filter, _configuration["ClientID"], _configuration["ClientSecret"], _configuration["TenantId"]);
+                return _vMQuery.Get(vmName, filter, _configuration["ClientId"], _configuration["ClientSecret"], _configuration["TenantId"]);
             }
             catch
             {
