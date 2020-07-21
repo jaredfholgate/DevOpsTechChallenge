@@ -5,7 +5,6 @@ namespace DevOpsTechChallenge.ChallengeTwo.IntnTests
     [TestClass]
     public class VMQueryTests
     {
-        [Ignore]
         [TestMethod]
         public void CanConnectToVMAndGetInfo()
         {
@@ -13,7 +12,6 @@ namespace DevOpsTechChallenge.ChallengeTwo.IntnTests
             Assert.IsTrue(result.Contains("\"name\": \"example-machine\""));
         }
 
-        [Ignore]
         [TestMethod]
         public void CanFilterResultToName()
         {
