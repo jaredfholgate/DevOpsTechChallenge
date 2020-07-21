@@ -37,7 +37,7 @@ This challenge was completed using a Terrform defintion for the 3 Tier Infrastru
 
 - The terraform defintion is here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/Infrastructure/dotc.tf
 - The Azure DevOps Pipeline that runs the Terraform apply is here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/azure-pipelines.yml
-- An example deployment where the infrastructure was created from scratch can be seen here: https://dev.azure.com/jaredfholgate/DevOpsTechChallenge/_build/results?buildId=213&view=results
+- An example deployment where the infrastructure was created from scratch can be seen here: https://dev.azure.com/jaredfholgate/DevOpsTechChallenge/_build/results?buildId=213&view=logs&j=e5483be5-0b17-5c84-5a14-2851645699f7&t=42261f82-5dc6-542f-bc35-95201887d32f
 - A live user interface to test is here: https://jfh-dotc-web-as.azurewebsites.net/
 
 ## Challenge 2
