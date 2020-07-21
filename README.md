@@ -29,7 +29,7 @@ At a high level the relevant urls are;
 
 ## Challenge 1
 
-This challenge was completed using a Terrform defintion for the 3 Tier Infrastructure. The 3 Tiers are;
+This challenge was completed using a Terraform defintion for the 3 Tier Infrastructure. The 3 Tiers are;
 
 1. Data: Azure SQL Service
 2. API: Azure App Service
