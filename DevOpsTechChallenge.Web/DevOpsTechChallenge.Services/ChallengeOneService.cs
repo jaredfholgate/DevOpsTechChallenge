@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DevOpsTechChallenge.Services.ChallengeThree
 {
@@ -31,7 +33,7 @@ namespace DevOpsTechChallenge.Services.ChallengeThree
         {
             using (var client = new HttpClient())
             {
-                var response = client.PostAsync($"{apiUrl}", new StringContent(testValue, Encoding.UTF8, "application/json")).Result;
+                var response = client.PostAsync($"{apiUrl}", new StringContent(JsonConvert.SerializeObject(testValue), Encoding.UTF8, "application/json")).Result;
             }
         }
     }

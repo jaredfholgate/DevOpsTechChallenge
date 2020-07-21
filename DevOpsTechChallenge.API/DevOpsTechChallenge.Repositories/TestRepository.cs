@@ -16,9 +16,11 @@ namespace DevOpsTechChallenge.Repositories
 
         private void InitialiseDatabase()
         {
-            using (var conn = new SqlConnection(_connectionString))
+            try
             {
-                var rows = conn.Execute(@"if not exists (select * from sys.tables where [name] = 'Test')
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    var rows = conn.Execute(@"if not exists (select * from sys.tables where [name] = 'Test')
                                             Begin
                                                 CREATE TABLE Test (
                                                 Id int not null,
@@ -27,7 +29,9 @@ namespace DevOpsTechChallenge.Repositories
                                                 Insert Into Test (Id, Test) Values (1 , 'Testing 123')
                                             End");
 
+                }
             }
+            catch { }
         }
 
         public string GetTest()

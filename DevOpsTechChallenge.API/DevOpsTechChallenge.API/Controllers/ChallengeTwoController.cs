@@ -24,11 +24,11 @@ namespace DevOpsTechChallenge.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(string key, string json)
+        public ActionResult<string> Get(string key, string json)
         {
             try
             {
-                return new JsonResult( _parser.Parse(key, json));
+                return _parser.Parse(key, json);
             }
             catch
             {

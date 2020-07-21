@@ -25,11 +25,26 @@ namespace DevOpsTechChallenge.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<string> Get()
         {
             try
             {
-                return new JsonResult(_testRepository.GetTest());
+                return  _testRepository.GetTest();
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult Post([FromBody]string testValue)
+        {
+            try
+            {
+                _testRepository.SetTest(testValue);
+                return Ok();
             }
             catch
             {
