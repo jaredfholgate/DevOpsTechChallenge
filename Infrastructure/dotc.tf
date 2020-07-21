@@ -21,8 +21,8 @@ resource "azurerm_resource_group" "dotc" {
 
 resource "azurerm_sql_server" "dotc" {
   name                         = "__sqlservername__"
-  resource_group_name          = azurerm_resource_group.dotc.location
   location                     = azurerm_resource_group.dotc.location
+  resource_group_name          = azurerm_resource_group.dotc.name
   version                      = "12.0"
   administrator_login          = "__sqladminusername__"
   administrator_login_password = "__sqladminpassword__"
@@ -30,8 +30,8 @@ resource "azurerm_sql_server" "dotc" {
 
 resource "azurerm_sql_database" "dotc" {
   name                = "__databasename__"
-  resource_group_name = azurerm_resource_group.dotc.location
   location            = azurerm_resource_group.dotc.location
+  resource_group_name = azurerm_resource_group.dotc.name
   server_name         = azurerm_sql_server.dotc.name
 }
 
