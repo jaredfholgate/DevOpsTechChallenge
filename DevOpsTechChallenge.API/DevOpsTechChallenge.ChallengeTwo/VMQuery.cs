@@ -13,12 +13,12 @@ namespace DevOpsTechChallenge.ChallengeTwo
 {
     public class VMQuery : IVMQuery
     {
-        public string Get(string vmName, string filter = null)
+        public string Get(string vmName, string filter, string clientId, string clientSecret, string tenantId)
         {
             var azure = Azure
             .Configure()
             .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
-            .Authenticate(GetCredentials())
+            .Authenticate(GetCredentials(clientId, clientSecret, tenantId))
             .WithDefaultSubscription();
 
             var vm = azure.VirtualMachines.GetByResourceGroup("jfh_testvm_rg", vmName);
@@ -38,12 +38,8 @@ namespace DevOpsTechChallenge.ChallengeTwo
             return jToken.ToString(Formatting.Indented);
         }
 
-        private AzureCredentials GetCredentials()
+        private AzureCredentials GetCredentials(string clientId, string clientSecret, string tenantId)
         {
-            var clientId = "1fd5d20d-23a4-44be-87df-3050561bc876";
-            var clientSecret = "RnLKkFzg8Nu5yqtc7pp__staKj-3u74L~o";
-            var tenantId = "9f21f3ed-5eea-4dc8-8ec9-369bf07b434a";
-
             return SdkContext.AzureCredentialsFactory.FromServicePrincipal(clientId, clientSecret, tenantId, AzureEnvironment.AzureGlobalCloud);
         }
     }

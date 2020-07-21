@@ -64,6 +64,11 @@ resource "azurerm_app_service" "dotc_api" {
     type  = "SQLServer"
     value = "Server=tcp:${azurerm_sql_server.dotc.fully_qualified_domain_name},1433;Database=${azurerm_sql_database.dotc.name};User ID=${azurerm_sql_server.dotc.administrator_login};Password=${azurerm_sql_server.dotc.administrator_login_password}"
   }
+  app_settings = {
+    "ClientId" = "__clientId__"
+    "ClientSecret" = "__clientSecret__"
+    "TenantId" = "__tenantId__"
+  }
 }
 
 resource "azurerm_app_service" "dotc_web" {

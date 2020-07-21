@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DevOpsTechChallenge.ChallengeThree;
 using DevOpsTechChallenge.ChallengeTwo;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace DevOpsTechChallenge.API.Controllers
@@ -17,11 +18,13 @@ namespace DevOpsTechChallenge.API.Controllers
  
         private readonly ILogger<ChallengeThreeController> _logger;
         private readonly IVMQuery _vMQuery;
+        private readonly IConfiguration _configuration;
 
-        public ChallengeTwoController(ILogger<ChallengeThreeController> logger, IVMQuery vMQuery)
+        public ChallengeTwoController(ILogger<ChallengeThreeController> logger, IVMQuery vMQuery, IConfiguration configuration)
         {
             _logger = logger;
             _vMQuery = vMQuery;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -29,7 +32,7 @@ namespace DevOpsTechChallenge.API.Controllers
         {
             try
             {
-                return _vMQuery.Get(vmName, filter);
+                return _vMQuery.Get(vmName, filter, _configuration["ClientID"], _configuration["ClientSecret"], _configuration["TenantId"]);
             }
             catch
             {
