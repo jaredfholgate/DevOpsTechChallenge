@@ -17,6 +17,7 @@ variables:
   terraformresourcegroup: jfh_dotc_terraform_ag
   terraformstorageaccount: jfhdotcterraformstore
   dotc_resourcegroupname: jfh_dotc_rg
+  testvm_resourcegroupname: jfh_testvm_rg
   sqlservername: jfh-dotc-sql
   sqladminusername: dotcadmin
   sqladminpassword: $(adminpassword)
