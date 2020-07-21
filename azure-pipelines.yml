@@ -54,6 +54,7 @@ jobs:
     inputs:
       targetPath: '$(APIDirectory)/$(APIName).zip'
       artifact: 'APIArtifact'
+
 - job: Build_Web
   displayName: Build Web
   steps:
@@ -81,4 +82,9 @@ jobs:
     inputs:
       targetPath: '$(WebSiteDirectory)/$(WebSiteName).zip'
       artifact: 'WebSiteArtifact'
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Terrform Artifact
+    inputs:
+      targetPath: '$(WorkingDirectory)/Infrastructure/*.tf'
+      artifact: 'Terraform'
  
