@@ -12,15 +12,15 @@ variables:
   WebSiteName: DevOpsTechChallenge.Web
   APIDirectory: $(WorkingDirectory)\$(APIName)
   WebSiteDirectory: $(WorkingDirectory)\$(WebSiteName)
-  terraformstorageaccount: jfh_addg_terraform_store
-  addg_resourcegroupname: jfh_addg_rg
-  sqlservername: jfh_addg_sql
-  sqladminusername: addgadmin
-  sqladminpassword: Addg@dmin3445
-  databasename: jfh_addg_db
-  appserviceplan: jfh_addg_asp
-  appservicenameapi: jfh_addg_api_as
-  appservicenameweb: jfh_addg_web_as
+  terraformstorageaccount: jfh_dotc_terraform_store
+  dotc_resourcegroupname: jfh_dotc_rg
+  sqlservername: jfh_dotc_sql
+  sqladminusername: dotcadmin
+  sqladminpassword: dotc@dmin3445
+  databasename: jfh_dotc_db
+  appserviceplan: jfh_dotc_asp
+  appservicenameapi: jfh_dotc_api_as
+  appservicenameweb: jfh_dotc_web_as
     
 
 pool:
