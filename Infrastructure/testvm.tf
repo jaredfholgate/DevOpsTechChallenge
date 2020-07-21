@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_resource_group" "testvm" {
     name     = "__testvm_resourcegroupname__"
     location = "__azurelocation__"
