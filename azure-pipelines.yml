@@ -13,7 +13,7 @@ variables:
   APIDirectory: $(WorkingDirectory)\$(APIName)
   WebSiteDirectory: $(WorkingDirectory)\$(WebSiteName)
   terraformresourcegroup: jfh_dotc_terraform_ag
-  terraformstorageaccount: jfh_dotc_terraform_store
+  terraformstorageaccount: jfhdotcterraformstore
   dotc_resourcegroupname: jfh_dotc_rg
   sqlservername: jfh_dotc_sql
   sqladminusername: dotcadmin
