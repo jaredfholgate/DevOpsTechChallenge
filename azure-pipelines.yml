@@ -85,7 +85,7 @@ jobs:
   - task: PublishPipelineArtifact@1
     displayName: Publish Terrform Artifact
     inputs:
-      targetPath: '$(WorkingDirectory)/Infrastructure/*.tf'
+      targetPath: '$(WorkingDirectory)/Infrastructure/dotc.tf'
       artifact: 'Terraform'
  
 - deployment: Deploy_Infrastructure
@@ -169,3 +169,37 @@ jobs:
             commandOptions: '-auto-approve'
             environmentServiceNameAzureRM: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
         
+- deployment: Deploy_API
+  displayName: Deploy API
+  dependsOn: Deploy_Infrastructure
+  environment: DOTC Production
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: current
+          artifact: APIArtifact
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+            appType: 'webApp'
+            WebAppName: '$(appservicenameapi)'
+            packageForLinux: '$(Pipeline.Workspace)/**/$(APIName).zip'
+- deployment: Deploy_Web
+  displayName: Deploy Web
+  dependsOn: Deploy_Infrastructure
+  environment: DOTC Production
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: current
+          artifact: WebSiteArtifact
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+            appType: 'webApp'
+            WebAppName: '$(appservicenameweb)'
+            packageForLinux: '$(Pipeline.Workspace)/**/$(WebSiteName).zip'
