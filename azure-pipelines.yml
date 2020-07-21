@@ -88,3 +88,54 @@ jobs:
       targetPath: '$(WorkingDirectory)/Infrastructure/*.tf'
       artifact: 'Terraform'
  
+- deployment: Deploy_Infrastructure
+  displayName: Deploy Infrastructure
+  dependsOn: Build_Web
+  environment: DOTC Production
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: current
+          artifact: Terraform
+        - task: AzureCLI@2
+          displayName: Deploy Storage for Terraform
+          inputs:
+            azureSubscription: 'Jared Holgate Test Subscription(7a392166-51df-403b-bb3d-96b48a733e6b)'
+            scriptType: 'batch'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              # this will create Azure resource group
+              call az group create --location westus --name $(terraformresourcegroup)
+              
+              call az storage account create --name $(terraformstorageaccount) --resource-group $(terraformresourcegroup) --location westus --sku Standard_LRS
+              
+              call az storage container create --name terraform --account-name $(terraformstorageaccount)
+              
+              call az storage account keys list -g $(terraformresourcegroup) -n $(terraformstorageaccount)
+        - task: AzurePowerShell@5
+          displayName: Get Storage Key for Terrafom
+          inputs:
+            azureSubscription: 'Jared Holgate Test Subscription(1)(7a392166-51df-403b-bb3d-96b48a733e6b)'
+            ScriptType: 'InlineScript'
+            Inline: |
+              # Using this script we will fetch storage key which is required in terraform file to authenticate backend storage account
+              
+              $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $(terraformresourcegroup) -AccountName $(terraformstorageaccount)).Value[0]
+              
+              Write-Host "##vso[task.setvariable variable=storagekey]$key"
+            azurePowerShellVersion: 'LatestVersion'
+        - task: replacetokens@3
+          displayName: Replace tokens in Terraform Files
+          inputs:
+            targetFiles: '**/*.tf'
+            encoding: 'auto'
+            writeBOM: true
+            escapeType: 'none'
+            actionOnMissing: 'warn'
+            keepToken: false
+            tokenPrefix: '__'
+            tokenSuffix: '__'
+            useLegacyPattern: false
+            enableTelemetry: false
+        
