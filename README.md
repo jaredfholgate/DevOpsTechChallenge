@@ -7,7 +7,7 @@ The three challenges use the following technologies;
 1. GitHub for source control.
 2. Azure DevOps Service for Continuous Integration and Continuous Delivery
 3. Azure as the platform
-4. Terrform to define the infrastructure
+4. Terraform to define the infrastructure
 5. C# for the code
 6. ASP.NET Core for the example apps
 7. Azure App Service for Web Tier and API Tier
@@ -53,8 +53,8 @@ This challenge was completed using PowerShell run remotely via C#. A VM is provi
 
 This challenge was completed using C#. I used JSON.NET, a well known Nuget package, to assist with parsing and finding the value defined by the key.
 
-- The unit tests are here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/DevOpsTechChallenge/DevOpsTechChallenge.ChallengeThree.UnitTests/ParserTest.cs
-- The implementation is here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/DevOpsTechChallenge/DevOpsTechChallenge.ChallengeThree/Parser.cs
+- The unit tests are here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/DevOpsTechChallenge.API/DevOpsTechChallenge.ChallengeThree.UnitTests/ParserTest.cs
+- The implementation is here: https://github.com/jaredfholgate/DevOpsTechChallenge/blob/master/DevOpsTechChallenge.API/DevOpsTechChallenge.ChallengeThree/Parser.cs
 - A live user interface to test is here: https://jfh-dotc-web-as.azurewebsites.net/
 
 ## Notes and Improvements
