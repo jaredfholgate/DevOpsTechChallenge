@@ -323,8 +323,8 @@ OpenCover/
 
 # Azure Stream Analytics local run output
 ASALocalRun/
-
-# MSBuild Binary and Structured Log
+H
+# MSBuild Bhinary and Structured Log
 *.binlog
 
 # NVidia Nsight GPU debugger configuration file
@@ -338,4 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/DevOpsTechChallenge/DevOpsTechChallenge.API.zip
+/DevOpsTechChallenge.API/DevOpsTechChallenge.API.zip
+/DevOpsTechChallenge.Web/DevOpsTechChallenge.Web.zip
